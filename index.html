@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sorting Visualizer</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <h1><span>Sorting</span> Visualizer</h1>
+    <p>Explore how sorting algorithms work</p>
+
+    <div class="controls">
+      <select id="algorithm">
+        <option>Bubble Sort</option>
+        <option>Selection Sort</option>
+        <option>Insertion Sort</option>
+        <option>Merge Sort</option>
+        <option>Quick Sort</option>
+        <option>Heap Sort</option>
+        <option>Shell Sort</option>
+        <option>Radix Sort</option>
+      </select>
+
+      <label>Speed: <input type="range" id="speed" min="10" max="1000" value="50" /></label>
+
+      <input type="number" id="array-size" min="1" max="100" placeholder="Array size" style="width:100px;" />
+      <input type="text" id="custom-array" placeholder="Enter elements, e.g. 5,3,8,1" style="width:220px;" />
+      <button id="set-array">Set Array</button>
+
+      <button id="sort">Sort</button>
+      <button id="pause">Pause</button>
+    </div>
+
+    <div class="stats">
+      <div>Comparisons: <span id="comparisons">0</span></div>
+      <div>Swaps: <span id="swaps">0</span></div>
+      <div>Time: <span id="time">0.0s</span></div>
+      <div>Complexity: <span id="complexity">O(n<sup>2</sup>)</span></div>
+    </div>
+
+    <div id="bars" class="bars-container"></div>
+
+    <div class="description">
+      <h2 id="algo-title">How does Bubble Sort work?</h2>
+      <p id="algo-description">
+        Bubble Sort compares adjacent elements and swaps them if they are in the wrong order. This process is repeated until the array is sorted.
+      </p>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
