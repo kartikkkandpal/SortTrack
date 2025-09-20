@@ -17,6 +17,9 @@ class SortingVisualizer {
         this.isSorted = false;
         this.shouldStop = false;
         
+        // Theme management
+        this.currentTheme = localStorage.getItem('theme') || 'dark';
+        
         // Statistics
         this.comparisons = 0;
         this.swaps = 0;
@@ -80,6 +83,7 @@ class SortingVisualizer {
         this.cacheDOMElements();
         this.attachEventListeners();
         this.syncSliderValues();
+        this.initializeTheme();
         this.generateRandomArray();
         this.updateAlgorithmInfo();
     }
@@ -115,6 +119,7 @@ class SortingVisualizer {
         this.complexityElement = document.getElementById('complexity');
         this.algorithmName = document.getElementById('algorithm-name');
         this.algorithmDescription = document.getElementById('algorithm-description');
+        this.themeToggle = document.getElementById('theme-toggle');
     }
     
     /*
@@ -137,6 +142,8 @@ class SortingVisualizer {
         });
         
         this.algorithmSelect.addEventListener('change', () => this.updateAlgorithmInfo());
+        
+        this.themeToggle.addEventListener('click', () => this.toggleTheme());
     }
     
     /*
@@ -842,6 +849,22 @@ class SortingVisualizer {
         this.algorithmName.textContent = algorithm.name;
         this.algorithmDescription.textContent = algorithm.description;
         this.complexityElement.textContent = algorithm.complexity;
+    }
+    
+    /*
+     * Initialize theme on page load
+     */
+    initializeTheme() {
+        document.documentElement.setAttribute('data-theme', this.currentTheme);
+    }
+    
+    /*
+     * Toggle between dark and light theme
+     */
+    toggleTheme() {
+        this.currentTheme = this.currentTheme === 'dark' ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', this.currentTheme);
+        localStorage.setItem('theme', this.currentTheme);
     }
 }
 
