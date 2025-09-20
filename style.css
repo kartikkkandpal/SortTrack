@@ -12,6 +12,12 @@
     --success-color: #10b981;
     --warning-color: #f59e0b;
     --danger-color: #ef4444;
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Dark theme (default) */
+:root,
+[data-theme="dark"] {
     --bg-color: #0f172a;
     --surface-color: #1e293b;
     --surface-light: #334155;
@@ -19,7 +25,17 @@
     --text-secondary: #94a3b8;
     --border-color: #334155;
     --shadow-color: rgba(0, 0, 0, 0.5);
-    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Light theme */
+[data-theme="light"] {
+    --bg-color: #ffffff;
+    --surface-color: #f8fafc;
+    --surface-light: #e2e8f0;
+    --text-primary: #1e293b;
+    --text-secondary: #64748b;
+    --border-color: #e2e8f0;
+    --shadow-color: rgba(0, 0, 0, 0.1);
 }
 
 body {
@@ -40,9 +56,22 @@ body {
 }
 
 header {
-    text-align: center;
     margin-bottom: 3rem;
     animation: fadeInDown 0.8s ease-out;
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.title-section {
+    text-align: center;
+    flex: 1;
+    min-width: 300px;
 }
 
 .title {
@@ -69,6 +98,58 @@ header {
     font-size: 1.25rem;
     color: var(--text-secondary);
     font-weight: 300;
+}
+
+.theme-toggle {
+    position: relative;
+    width: 50px;
+    height: 50px;
+    border: none;
+    border-radius: 50%;
+    background: var(--surface-color);
+    border: 1px solid var(--border-color);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition);
+    box-shadow: 0 2px 8px var(--shadow-color);
+}
+
+.theme-toggle:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px var(--shadow-color);
+    border-color: var(--primary-color);
+}
+
+.theme-toggle:active {
+    transform: translateY(0);
+}
+
+.theme-toggle svg {
+    position: absolute;
+    transition: var(--transition);
+    color: var(--text-primary);
+}
+
+.theme-toggle .sun-icon {
+    opacity: 1;
+    transform: rotate(0deg);
+}
+
+.theme-toggle .moon-icon {
+    opacity: 0;
+    transform: rotate(180deg);
+}
+
+[data-theme="light"] .theme-toggle .sun-icon {
+    opacity: 0;
+    transform: rotate(180deg);
+}
+
+[data-theme="light"] .theme-toggle .moon-icon {
+    opacity: 1;
+    transform: rotate(0deg);
 }
 
 .controls {
@@ -345,8 +426,28 @@ header {
         padding: 1rem;
     }
 
+    .header-content {
+        flex-direction: column;
+        text-align: center;
+        gap: 1.5rem;
+    }
+
+    .title-section {
+        min-width: auto;
+    }
+
     .title {
         font-size: 2.5rem;
+    }
+
+    .theme-toggle {
+        width: 45px;
+        height: 45px;
+    }
+
+    .theme-toggle svg {
+        width: 18px;
+        height: 18px;
     }
 
     .controls {
