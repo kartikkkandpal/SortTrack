@@ -48,6 +48,16 @@ class SortingVisualizer {
                 complexity: 'O(n log n)',
                 description: 'Merge Sort divides the array into two halves, recursively sorts them, and then merges them into a sorted array.'
             },
+            counting: {
+                name: 'Counting Sort',
+                complexity: 'O(n + k)',
+                description: 'Counting Sort counts the frequency of each element and uses this information to place elements in their correct sorted position. It works best with small integer ranges.'
+            },
+            radix: {
+                name: 'Radix Sort',
+                complexity: 'O(d × (n + k))',
+                description: 'Radix Sort sorts elements by processing individual digits. It processes digits from least significant to most significant, using a stable sorting algorithm for each digit.'
+            },
             heap: {
                 name: 'Heap Sort',
                 complexity: 'O(n log n)',
@@ -220,6 +230,12 @@ class SortingVisualizer {
                     break;
                 case 'merge':
                     await this.mergeSort(0, this.array.length - 1);
+                    break;
+                case 'counting':
+                    await this.countingSort();
+                    break;
+                case 'radix':
+                    await this.radixSort();
                     break;
                 case 'heap':
                     await this.heapSort();
@@ -588,6 +604,127 @@ class SortingVisualizer {
             
             // Recursively heapify the affected sub-tree
             await this.heapify(n, largest);
+        }
+    }
+    
+    /*
+     * Counting Sort Algorithm
+     * Time Complexity: O(n + k) where k is the range of input
+     * Space Complexity: O(k)
+     */
+    async countingSort() {
+        // Find the maximum element to determine the range
+        let max = this.array[0];
+        for (let i = 1; i < this.array.length; i++) {
+            await this.compare(0, i);
+            if (this.array[i] > max) {
+                max = this.array[i];
+            }
+        }
+        
+        // Create count array
+        const count = new Array(max + 1).fill(0);
+        
+        // Count the frequency of each element
+        for (let i = 0; i < this.array.length; i++) {
+            count[this.array[i]]++;
+            this.markSelected(i);
+            await this.delay();
+            this.unmarkSelected(i);
+        }
+        
+        // Modify count array to store actual position
+        for (let i = 1; i <= max; i++) {
+            count[i] += count[i - 1];
+        }
+        
+        // Create output array
+        const output = new Array(this.array.length);
+        
+        // Build the output array
+        for (let i = this.array.length - 1; i >= 0; i--) {
+            output[count[this.array[i]] - 1] = this.array[i];
+            count[this.array[i]]--;
+            
+            // Visualize the placement
+            this.markSelected(i);
+            await this.delay();
+            this.unmarkSelected(i);
+        }
+        
+        // Copy the output array back to the original array
+        for (let i = 0; i < this.array.length; i++) {
+            this.array[i] = output[i];
+            this.barsContainer.children[i].style.height = `${this.array[i]}px`;
+            this.markSorted(i);
+            await this.delay();
+        }
+    }
+    
+    /*
+     * Radix Sort Algorithm
+     * Time Complexity: O(d × (n + k)) where d is the number of digits
+     * Space Complexity: O(n + k)
+     */
+    async radixSort() {
+        // Find the maximum number to know the number of digits
+        let max = this.array[0];
+        for (let i = 1; i < this.array.length; i++) {
+            await this.compare(0, i);
+            if (this.array[i] > max) {
+                max = this.array[i];
+            }
+        }
+        
+        // Do counting sort for every digit
+        for (let exp = 1; Math.floor(max / exp) > 0; exp *= 10) {
+            await this.countingSortByDigit(exp);
+        }
+        
+        // Mark all elements as sorted
+        for (let i = 0; i < this.array.length; i++) {
+            this.markSorted(i);
+        }
+    }
+    
+    /*
+     * Counting sort by digit for Radix Sort
+     */
+    async countingSortByDigit(exp) {
+        const n = this.array.length;
+        const output = new Array(n);
+        const count = new Array(10).fill(0);
+        
+        // Store count of occurrences in count[]
+        for (let i = 0; i < n; i++) {
+            count[Math.floor(this.array[i] / exp) % 10]++;
+            this.markSelected(i);
+            await this.delay();
+            this.unmarkSelected(i);
+        }
+        
+        // Change count[i] so that count[i] contains actual position
+        for (let i = 1; i < 10; i++) {
+            count[i] += count[i - 1];
+        }
+        
+        // Build the output array
+        for (let i = n - 1; i >= 0; i--) {
+            const digit = Math.floor(this.array[i] / exp) % 10;
+            output[count[digit] - 1] = this.array[i];
+            count[digit]--;
+            
+            // Visualize the placement
+            this.markSelected(i);
+            await this.delay();
+            this.unmarkSelected(i);
+        }
+        
+        // Copy the output array to the original array
+        for (let i = 0; i < n; i++) {
+            this.array[i] = output[i];
+            this.barsContainer.children[i].style.height = `${this.array[i]}px`;
+            await this.delay();
         }
     }
     
