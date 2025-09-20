@@ -53,16 +53,21 @@ class SortingVisualizer {
                 complexity: 'O(n + k)',
                 description: 'Counting Sort counts the frequency of each element and uses this information to place elements in their correct sorted position. It works best with small integer ranges.'
             },
-            radix: {
-                name: 'Radix Sort',
-                complexity: 'O(d × (n + k))',
-                description: 'Radix Sort sorts elements by processing individual digits. It processes digits from least significant to most significant, using a stable sorting algorithm for each digit.'
-            },
-            heap: {
-                name: 'Heap Sort',
-                complexity: 'O(n log n)',
-                description: 'Heap Sort builds a max-heap from the array and repeatedly extracts the maximum element, rebuilding the heap each time.'
-            }
+             radix: {
+                 name: 'Radix Sort',
+                 complexity: 'O(d × (n + k))',
+                 description: 'Radix Sort sorts elements by processing individual digits. It processes digits from least significant to most significant, using a stable sorting algorithm for each digit.'
+             },
+             shell: {
+                 name: 'Shell Sort',
+                 complexity: 'O(n^1.5)',
+                 description: 'Shell Sort is an optimization of Insertion Sort that sorts elements far apart first, then gradually reduces the gap. It uses different gap sequences to improve performance.'
+             },
+             heap: {
+                 name: 'Heap Sort',
+                 complexity: 'O(n log n)',
+                 description: 'Heap Sort builds a max-heap from the array and repeatedly extracts the maximum element, rebuilding the heap each time.'
+             }
         };
         
         this.init();
@@ -234,12 +239,15 @@ class SortingVisualizer {
                 case 'counting':
                     await this.countingSort();
                     break;
-                case 'radix':
-                    await this.radixSort();
-                    break;
-                case 'heap':
-                    await this.heapSort();
-                    break;
+                 case 'radix':
+                     await this.radixSort();
+                     break;
+                 case 'shell':
+                     await this.shellSort();
+                     break;
+                 case 'heap':
+                     await this.heapSort();
+                     break;
             }
             
             // Only mark as sorted if still running (not interrupted)
@@ -687,46 +695,94 @@ class SortingVisualizer {
         }
     }
     
-    /*
-     * Counting sort by digit for Radix Sort
-     */
-    async countingSortByDigit(exp) {
-        const n = this.array.length;
-        const output = new Array(n);
-        const count = new Array(10).fill(0);
-        
-        // Store count of occurrences in count[]
-        for (let i = 0; i < n; i++) {
-            count[Math.floor(this.array[i] / exp) % 10]++;
-            this.markSelected(i);
-            await this.delay();
-            this.unmarkSelected(i);
-        }
-        
-        // Change count[i] so that count[i] contains actual position
-        for (let i = 1; i < 10; i++) {
-            count[i] += count[i - 1];
-        }
-        
-        // Build the output array
-        for (let i = n - 1; i >= 0; i--) {
-            const digit = Math.floor(this.array[i] / exp) % 10;
-            output[count[digit] - 1] = this.array[i];
-            count[digit]--;
-            
-            // Visualize the placement
-            this.markSelected(i);
-            await this.delay();
-            this.unmarkSelected(i);
-        }
-        
-        // Copy the output array to the original array
-        for (let i = 0; i < n; i++) {
-            this.array[i] = output[i];
-            this.barsContainer.children[i].style.height = `${this.array[i]}px`;
-            await this.delay();
-        }
-    }
+     /*
+      * Counting sort by digit for Radix Sort
+      */
+     async countingSortByDigit(exp) {
+         const n = this.array.length;
+         const output = new Array(n);
+         const count = new Array(10).fill(0);
+         
+         // Store count of occurrences in count[]
+         for (let i = 0; i < n; i++) {
+             count[Math.floor(this.array[i] / exp) % 10]++;
+             this.markSelected(i);
+             await this.delay();
+             this.unmarkSelected(i);
+         }
+         
+         // Change count[i] so that count[i] contains actual position
+         for (let i = 1; i < 10; i++) {
+             count[i] += count[i - 1];
+         }
+         
+         // Build the output array
+         for (let i = n - 1; i >= 0; i--) {
+             const digit = Math.floor(this.array[i] / exp) % 10;
+             output[count[digit] - 1] = this.array[i];
+             count[digit]--;
+             
+             // Visualize the placement
+             this.markSelected(i);
+             await this.delay();
+             this.unmarkSelected(i);
+         }
+         
+         // Copy the output array to the original array
+         for (let i = 0; i < n; i++) {
+             this.array[i] = output[i];
+             this.barsContainer.children[i].style.height = `${this.array[i]}px`;
+             await this.delay();
+         }
+     }
+     
+     /*
+      * Shell Sort Algorithm
+      * Time Complexity: O(n^1.5) average case, O(n^2) worst case
+      * Space Complexity: O(1)
+      */
+     async shellSort() {
+         const n = this.array.length;
+         
+         // Start with a big gap, then reduce the gap
+         for (let gap = Math.floor(n / 2); gap > 0; gap = Math.floor(gap / 2)) {
+             // Do a gapped insertion sort for this gap size
+             for (let i = gap; i < n; i++) {
+                 // Add a[i] to the elements that have been gap sorted
+                 // save a[i] in temp and make a hole at position i
+                 let temp = this.array[i];
+                 let j = i;
+                 
+                 // Mark the current element being processed
+                 this.markSelected(i);
+                 
+                 // Shift earlier gap-sorted elements up until the correct location for a[i] is found
+                 while (j >= gap && this.array[j - gap] > temp) {
+                     await this.compare(j - gap, j);
+                     
+                     this.array[j] = this.array[j - gap];
+                     this.barsContainer.children[j].style.height = `${this.array[j]}px`;
+                     
+                     j -= gap;
+                     this.swaps++;
+                     this.updateStats();
+                     await this.delay();
+                 }
+                 
+                 // Put temp (the original a[i]) in its correct location
+                 this.array[j] = temp;
+                 this.barsContainer.children[j].style.height = `${this.array[j]}px`;
+                 
+                 this.unmarkSelected(i);
+                 await this.delay();
+             }
+         }
+         
+         // Mark all elements as sorted
+         for (let i = 0; i < this.array.length; i++) {
+             this.markSorted(i);
+         }
+     }
     
     /*
      * Visual helper functions
