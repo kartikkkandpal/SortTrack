@@ -1,4 +1,96 @@
 /*
+ * Particles Class
+ * Handles the background particles effect
+ */
+class Particles {
+    constructor() {
+        this.canvas = null;
+        this.ctx = null;
+        this.particles = [];
+        this.particleCount = 50;
+        this.colors = ['#6366f1', '#8b5cf6', '#ec4899', '#10b981'];
+        this.animationFrame = null;
+        
+        this.init();
+    }
+    
+    init() {
+        // Create canvas element
+        this.canvas = document.createElement('canvas');
+        this.ctx = this.canvas.getContext('2d');
+        
+        // Append to particles container
+        const container = document.getElementById('particles-container');
+        container.appendChild(this.canvas);
+        
+        // Set canvas size
+        this.resizeCanvas();
+        
+        // Create particles
+        this.createParticles();
+        
+        // Start animation
+        this.animate();
+        
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            this.resizeCanvas();
+            this.createParticles();
+        });
+    }
+    
+    resizeCanvas() {
+        this.canvas.width = window.innerWidth;
+        this.canvas.height = window.innerHeight;
+    }
+    
+    createParticles() {
+        this.particles = [];
+        
+        for (let i = 0; i < this.particleCount; i++) {
+            this.particles.push({
+                x: Math.random() * this.canvas.width,
+                y: Math.random() * this.canvas.height,
+                radius: Math.random() * 5 + 1,
+                color: this.colors[Math.floor(Math.random() * this.colors.length)],
+                speedX: Math.random() * 2 - 1,
+                speedY: Math.random() * 2 - 1,
+                opacity: Math.random() * 0.5 + 0.1
+            });
+        }
+    }
+    
+    animate() {
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        
+        // Update and draw particles
+        for (let i = 0; i < this.particles.length; i++) {
+            const p = this.particles[i];
+            
+            // Update position
+            p.x += p.speedX;
+            p.y += p.speedY;
+            
+            // Bounce off edges
+            if (p.x < 0 || p.x > this.canvas.width) p.speedX *= -1;
+            if (p.y < 0 || p.y > this.canvas.height) p.speedY *= -1;
+            
+            // Draw particle
+            this.ctx.beginPath();
+            this.ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+            this.ctx.fillStyle = p.color;
+            this.ctx.globalAlpha = p.opacity;
+            this.ctx.fill();
+        }
+        
+        this.ctx.globalAlpha = 1;
+        
+        // Continue animation
+        this.animationFrame = requestAnimationFrame(() => this.animate());
+    }
+}
+
+/*
  * SortingVisualizer Class
  * Main class that handles the visualization of various sorting algorithms
  */
@@ -870,5 +962,6 @@ class SortingVisualizer {
 
 // Initialize the application when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
+    new Particles();
     new SortingVisualizer();
 });
