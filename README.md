@@ -92,13 +92,12 @@ A beautiful, interactive web application that helps you understand how different
 - **Performance Optimized**
   - Efficient DOM updates
   - Smooth animations
-  - Minimal memory usage
 
 ## 💻 Run Instructions
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/SortTrack.git
+   git clone https://github.com/kartikkkandpal/SortTrack.git
    cd SortTrack
    ```
 
@@ -112,10 +111,3 @@ A beautiful, interactive web application that helps you understand how different
   - HTML5
   - CSS3 (with modern features)
   - Vanilla JavaScript (ES6+)
-  - Particle.js for background effects
-
-- **Design**
-  - Custom CSS animations
-  - Inter font family
-  - Responsive layout
-  - Dark/Light theme support
