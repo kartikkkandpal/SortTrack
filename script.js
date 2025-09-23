@@ -212,6 +212,9 @@ class SortingVisualizer {
         this.algorithmName = document.getElementById('algorithm-name');
         this.algorithmDescription = document.getElementById('algorithm-description');
         this.themeToggle = document.getElementById('theme-toggle');
+        this.customArrayInput = document.getElementById('custom-array');
+        this.customArrayBtn = document.getElementById('custom-array-btn');
+        this.customArrayError = document.getElementById('custom-array-error');
     }
     
     /*
@@ -236,6 +239,11 @@ class SortingVisualizer {
         this.algorithmSelect.addEventListener('change', () => this.updateAlgorithmInfo());
         
         this.themeToggle.addEventListener('click', () => this.toggleTheme());
+        
+        this.customArrayBtn.addEventListener('click', () => this.setCustomArray());
+        this.customArrayInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') this.setCustomArray();
+        });
     }
     
     /*
@@ -957,6 +965,42 @@ class SortingVisualizer {
         this.currentTheme = this.currentTheme === 'dark' ? 'light' : 'dark';
         document.documentElement.setAttribute('data-theme', this.currentTheme);
         localStorage.setItem('theme', this.currentTheme);
+    }
+    
+    /*
+     * Set custom array from user input
+     */
+    setCustomArray() {
+        const input = this.customArrayInput.value.trim();
+        this.customArrayError.style.display = 'none';
+        if (!input) return;
+
+        // Parse input: allow comma or space separated numbers
+        let arr = input.split(/[\s,]+/).map(Number);
+
+        // Validate: all numbers, no NaN, length between 2 and 100, all positive
+        if (
+            arr.some(isNaN) ||
+            arr.length < 2 ||
+            arr.length > 100 ||
+            arr.some(x => x < 0 || !Number.isFinite(x))
+        ) {
+            this.customArrayError.textContent = 'Please enter 2-100 positive numbers, separated by commas or spaces.';
+            this.customArrayError.style.display = 'block';
+            return;
+        }
+
+        // Clamp values to 10-350 for bar height
+        arr = arr.map(x => Math.max(10, Math.min(350, x)));
+
+        this.array = arr;
+        this.arraySize = arr.length;
+        this.arraySizeSlider.value = arr.length;
+        this.sizeValue.textContent = arr.length;
+        this.isSorted = false;
+        this.sortBtn.disabled = false;
+        this.renderBars();
+        this.resetStats();
     }
 }
 
