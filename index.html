@@ -85,6 +85,12 @@
                     </svg>
                     Pause
                 </button>
+                <div class="custom-array-inline">
+                    <label for="custom-array" style="display:none;">Custom Array</label>
+                    <input type="text" id="custom-array" class="select-input" placeholder="e.g. 5,3,8,1,2">
+                    <button id="custom-array-btn" class="btn btn-secondary" style="padding: 0 1rem;">Set</button>
+                    <span id="custom-array-error" style="color: var(--danger-color); font-size: 0.8rem; display: none; margin-left: 0.5rem;"></span>
+                </div>
             </div>
         </div>
 
@@ -113,15 +119,6 @@
                 Bubble Sort compares adjacent elements and swaps them if they are in the wrong order. 
                 This process is repeated until the array is sorted.
             </p>
-        </div>
-
-        <div class="control-group">
-            <label for="custom-array">Custom Array</label>
-            <div style="display: flex; gap: 0.5rem;">
-                <input type="text" id="custom-array" class="select-input" placeholder="e.g. 5,3,8,1,2">
-                <button id="custom-array-btn" class="btn btn-secondary" style="padding: 0 1rem;">Set</button>
-            </div>
-            <span id="custom-array-error" style="color: var(--danger-color); font-size: 0.8rem; display: none;"></span>
         </div>
     </div>
 
