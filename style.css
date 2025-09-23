@@ -409,6 +409,11 @@ header {
     line-height: 1.6;
 }
 
+#custom-array {
+    min-width: 120px;
+    flex: 1;
+}
+
 @keyframes fadeInDown {
     from {
         opacity: 0;
