@@ -430,6 +430,24 @@ header {
     justify-content: center;
 }
 
+.coffee-btn-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem; 
+}
+
+.buy-coffee-btn {
+    margin-left: 0; 
+    display: inline-block;
+    transition: transform 0.2s;
+    vertical-align: middle;
+}
+
+.buy-coffee-btn:hover {
+    transform: scale(1.07);
+    box-shadow: 0 2px 8px var(--shadow-color);
+}
+
 @media (max-width: 768px) {
     .container {
         padding: 1rem;
