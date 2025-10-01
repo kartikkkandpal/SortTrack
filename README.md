@@ -119,5 +119,5 @@ A beautiful, interactive web application that helps you understand how different
 
 ## 🖼️ Screenshots
 
-![SortTrack Lightmode Screenshot](./public/lightmode.png)
-![SortTrack Darkmode Screenshot](./public/darkmode.png)
+![SortTrack Lightmode Screenshot](lightmode.png)
+![SortTrack Darkmode Screenshot](darkmode.png)
