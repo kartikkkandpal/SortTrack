@@ -111,3 +111,13 @@ A beautiful, interactive web application that helps you understand how different
   - HTML5
   - CSS3 (with modern features)
   - Vanilla JavaScript (ES6+)
+
+## 👤 Author
+
+- [Kartik Kandpal](https://github.com/kartikkkandpal)
+
+
+## 🖼️ Screenshots
+
+![SortTrack Lightmode Screenshot](./public/lightmode.png)
+![SortTrack Darkmode Screenshot](./public/darkmode.png)
