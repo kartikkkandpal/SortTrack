@@ -121,3 +121,6 @@ A beautiful, interactive web application that helps you understand how different
 
 ![SortTrack Lightmode Screenshot](lightmode.png)
 ![SortTrack Darkmode Screenshot](darkmode.png)
+
+---
+Visualize different Sorting Algorithms !!
