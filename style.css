@@ -84,11 +84,28 @@ header {
     min-width: 300px;
 }
 
+.logo {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+}
+
+@media (max-width: 600px) {
+    .logo {
+        width: 30px;
+        height: 30px;
+    }
+}
+
 .title {
-    font-size: 3.5rem;
+    font-size: 4rem;
     font-weight: 700;
     margin-bottom: 0.5rem;
     letter-spacing: -0.02em;
+    display: flex;
+    align-items: center;
+    justify-content: center; 
+    text-align: center;
 }
 
 .title-gradient {
@@ -108,6 +125,7 @@ header {
     font-size: 1.25rem;
     color: var(--text-secondary);
     font-weight: 300;
+    text-align: center;
 }
 
 .theme-toggle {
