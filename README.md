@@ -4,12 +4,14 @@ A beautiful, interactive web application that helps you understand how different
 
 ## 📋 Table of Contents
 
-- [Features](#-features)
-- [Supported Algorithms](#-supported-algorithms)
-- [Live Statistics](#-live-statistics)
-- [Technical Details](#-technical-details)
-- [Run Instructions](#-run-instructions)
-- [Technologies Used](#️-technologies-used)
+- [🌟 Features](#-features)
+- [🔄 Supported Algorithms](#-supported-algorithms)
+- [📊 Live Statistics](#-live-statistics)
+- [🔧 Technical Details](#-technical-details)
+- [💻 Run Instructions](#-run-instructions)
+- [🛠️ Technologies Used](#-technologies-used)
+- [👤 Author](#-author)
+- [Screenshots](#screenshots)
 
 ## 🌟 Features
 
@@ -117,7 +119,7 @@ A beautiful, interactive web application that helps you understand how different
 - [Kartik Kandpal](https://github.com/kartikkkandpal)
 
 
-## 🖼️ Screenshots
+## Screenshots
 
 ![SortTrack Lightmode Screenshot](lightmode.png)
 ![SortTrack Darkmode Screenshot](darkmode.png)
